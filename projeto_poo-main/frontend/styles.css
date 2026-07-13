@@ -1,5 +1,5 @@
 :root {
-    --background: #f5f1e8;
+    --background: #E5E2D9;
     --background-soft: #faf8f2;
 
     --primary: #1e3a5f;
@@ -14,13 +14,13 @@
     --border: #e3ddd1;
     --border-light: #eee9df;
 
-    --status-pendente: #ad720f;
-    --status-pendente-bg: #fff1cf;
+    --status-pendente: #EF4444;
+    --status-pendente-bg: #ffd8cf;
 
-    --status-curso: #376ba4;
-    --status-curso-bg: #e8f1fb;
+    --status-curso: #E9C46A;
+    --status-curso-bg: #fbf7e8;
 
-    --status-concluida: #347a5b;
+    --status-concluida: #45AD74;
     --status-concluida-bg: #e4f4ec;
 
     --danger: #a83a3a;
