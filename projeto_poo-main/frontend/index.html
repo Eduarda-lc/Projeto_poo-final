@@ -1,0 +1,1627 @@
+<!doctype html>
+<html lang="pt">
+
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>GestorTarefas</title>
+
+  <meta
+    name="description"
+    content="Sistema de gestão de tarefas para projetos de consultoria."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/static/styles.css"
+  >
+</head>
+
+<body>
+
+  <div class="app-layout">
+
+    <!-- ======================================================
+         MENU LATERAL
+         ====================================================== -->
+
+    <aside class="sidebar">
+
+      <div class="sidebar-logo">
+
+        <div class="logo-icon">
+          G
+        </div>
+
+        <div class="logo-text">
+          <strong>GestorTarefas</strong>
+          <span>Consultoria & Projetos</span>
+        </div>
+
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <button
+          type="button"
+          class="nav-item ativo"
+          data-secao="painel"
+        >
+          <span class="nav-icon">⌂</span>
+          <span>Painel</span>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-secao="tarefas"
+        >
+          <span class="nav-icon">✓</span>
+          <span>Tarefas</span>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-secao="nova-tarefa"
+        >
+          <span class="nav-icon">＋</span>
+          <span>Nova tarefa</span>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-secao="estatisticas"
+        >
+          <span class="nav-icon">▥</span>
+          <span>Estatísticas</span>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-secao="exportar"
+        >
+          <span class="nav-icon">⇩</span>
+          <span>Exportar</span>
+        </button>
+
+        <a
+          class="nav-item"
+          href="/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="nav-icon">⚙</span>
+          <span>Documentação API</span>
+        </a>
+
+      </nav>
+
+      <div class="sidebar-footer">
+        Projeto de Programação Orientada a Objetos
+      </div>
+
+    </aside>
+
+    <!-- ======================================================
+         CONTEÚDO PRINCIPAL
+         ====================================================== -->
+
+    <div class="app-content">
+
+      <header class="topbar">
+
+        <div>
+
+          <p class="topbar-subtitulo">
+            Gestão de projetos
+          </p>
+
+          <h1 id="titulo-pagina">
+            Painel
+          </h1>
+
+        </div>
+
+        <div class="topbar-direita">
+
+          <span id="data-atual"></span>
+
+          <div class="avatar">
+            GT
+          </div>
+
+        </div>
+
+      </header>
+
+      <main class="main-content">
+
+        <!-- Mensagens de sucesso e erro -->
+
+        <section
+          id="mensagem"
+          class="mensagem oculto"
+          role="status"
+          aria-live="polite"
+        ></section>
+
+        <!-- ==================================================
+             PÁGINA: PAINEL
+             ================================================== -->
+
+        <section
+          id="secao-painel"
+          class="pagina-secao ativa"
+        >
+
+          <div class="cabecalho-pagina">
+
+            <div>
+
+              <p class="eyebrow">
+                VISÃO GERAL
+              </p>
+
+              <h2>
+                Resumo do projeto
+              </h2>
+
+              <p class="texto-secundario">
+                Acompanhe tarefas, horas, custos e progresso do projeto.
+              </p>
+
+            </div>
+
+            <button
+              type="button"
+              class="botao-principal"
+              id="botao-ir-nova-tarefa"
+            >
+              + Nova tarefa
+            </button>
+
+          </div>
+
+          <!-- Cartões de estatísticas -->
+
+          <section
+            id="cards"
+            class="cards"
+          ></section>
+
+          <section class="dashboard-grid">
+
+            <!-- Progresso do projeto -->
+
+            <article class="painel">
+
+              <div class="painel-cabecalho">
+
+                <div>
+
+                  <p class="eyebrow">
+                    PROGRESSO
+                  </p>
+
+                  <h3>
+                    Conclusão do projeto
+                  </h3>
+
+                </div>
+
+                <strong
+                  id="percentagem-texto"
+                  class="percentagem-numero"
+                >
+                  0%
+                </strong>
+
+              </div>
+
+              <div class="barra-progresso">
+
+                <div
+                  id="barra-percentagem"
+                  class="barra-preenchimento"
+                ></div>
+
+              </div>
+
+              <div class="progresso-legenda">
+
+                <div>
+
+                  <span class="legenda-ponto pendente"></span>
+
+                  Pendentes
+
+                  <strong id="legenda-pendentes">
+                    0
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span class="legenda-ponto curso"></span>
+
+                  Em curso
+
+                  <strong id="legenda-curso">
+                    0
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span class="legenda-ponto concluida"></span>
+
+                  Concluídas
+
+                  <strong id="legenda-concluidas">
+                    0
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <p
+                id="resumo-estatisticas"
+                class="texto-secundario progresso-resumo"
+              >
+                Ainda não existem tarefas.
+              </p>
+
+            </article>
+
+            <!-- Gráfico circular -->
+
+            <article class="painel">
+
+              <div class="painel-cabecalho">
+
+                <div>
+
+                  <p class="eyebrow">
+                    DISTRIBUIÇÃO
+                  </p>
+
+                  <h3>
+                    Estados das tarefas
+                  </h3>
+
+                </div>
+
+              </div>
+
+              <div class="grafico-circular-wrap">
+
+                <div
+                  id="grafico-circular"
+                  class="grafico-circular"
+                >
+
+                  <div class="grafico-centro">
+
+                    <strong id="grafico-total">
+                      0
+                    </strong>
+
+                    <span>
+                      tarefas
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="grafico-legenda">
+
+                  <div class="item-legenda">
+
+                    <span class="cor-legenda pendente"></span>
+
+                    <div>
+
+                      <small>
+                        Pendentes
+                      </small>
+
+                      <strong id="grafico-pendentes">
+                        0
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+                  <div class="item-legenda">
+
+                    <span class="cor-legenda curso"></span>
+
+                    <div>
+
+                      <small>
+                        Em curso
+                      </small>
+
+                      <strong id="grafico-curso">
+                        0
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+                  <div class="item-legenda">
+
+                    <span class="cor-legenda concluida"></span>
+
+                    <div>
+
+                      <small>
+                        Concluídas
+                      </small>
+
+                      <strong id="grafico-concluidas">
+                        0
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </section>
+
+          <!-- Tarefas recentes -->
+
+          <section class="painel">
+
+            <div class="titulo-linha">
+
+              <div>
+
+                <p class="eyebrow">
+                  TAREFAS RECENTES
+                </p>
+
+                <h3>
+                  Últimas tarefas registadas
+                </h3>
+
+              </div>
+
+              <button
+                type="button"
+                class="botao-secundario"
+                id="botao-ver-tarefas"
+              >
+                Ver todas
+              </button>
+
+            </div>
+
+            <div class="tabela-wrap">
+
+              <table>
+
+                <thead>
+
+                  <tr>
+
+                    <th>ID</th>
+
+                    <th>Tarefa</th>
+
+                    <th>Responsável</th>
+
+                    <th>Estado</th>
+
+                    <th>Tipo</th>
+
+                    <th>Custo</th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody id="corpo-tabela-recentes"></tbody>
+
+              </table>
+
+            </div>
+
+          </section>
+
+        </section>
+
+        <!-- ==================================================
+             PÁGINA: TAREFAS
+             ================================================== -->
+
+        <section
+          id="secao-tarefas"
+          class="pagina-secao"
+        >
+
+          <div class="cabecalho-lista-tarefas">
+
+            <div>
+
+              <p class="eyebrow">
+                GESTÃO
+              </p>
+
+              <h2>
+                Tarefas
+              </h2>
+
+              <p
+                id="contador-tarefas"
+                class="texto-secundario"
+              >
+                0 de 0 tarefas
+              </p>
+
+            </div>
+
+            <button
+              type="button"
+              class="botao-principal"
+              id="botao-ir-nova-tarefa-2"
+            >
+              + Nova tarefa
+            </button>
+
+          </div>
+
+          <!-- Pesquisa e filtros -->
+
+          <section class="painel painel-filtros">
+
+            <div class="barra-filtros">
+
+              <div class="campo-pesquisa">
+
+                <span class="icone-pesquisa">
+                  ⌕
+                </span>
+
+                <input
+                  id="filtro-pesquisa"
+                  type="search"
+                  placeholder="Pesquisar por título ou responsável..."
+                  autocomplete="off"
+                >
+
+              </div>
+
+              <select id="filtro-estado">
+
+                <option value="">
+                  Todos os estados
+                </option>
+
+                <option value="pendente">
+                  Pendente
+                </option>
+
+                <option value="em curso">
+                  Em curso
+                </option>
+
+                <option value="concluída">
+                  Concluída
+                </option>
+
+              </select>
+
+              <select id="filtro-tipo">
+
+                <option value="">
+                  Todos os tipos
+                </option>
+
+                <option value="tecnica">
+                  Técnica
+                </option>
+
+                <option value="reuniao">
+                  Reunião
+                </option>
+
+              </select>
+
+              <button
+                type="button"
+                id="limpar-filtros"
+                class="botao-limpar-filtros"
+              >
+                Limpar filtros
+              </button>
+
+            </div>
+
+          </section>
+
+          <!-- Tabela principal -->
+
+          <section class="painel">
+
+            <div class="tabela-wrap">
+
+              <table>
+
+                <thead>
+
+                  <tr>
+
+                    <th
+                      class="cabecalho-ordenavel ordenacao-ativa"
+                      data-ordenar="id"
+                    >
+                      ID
+
+                      <span class="icone-ordenacao">
+                        ↑
+                      </span>
+                    </th>
+
+                    <th
+                      class="cabecalho-ordenavel"
+                      data-ordenar="titulo"
+                    >
+                      Tarefa
+
+                      <span class="icone-ordenacao">
+                        ↕
+                      </span>
+                    </th>
+
+                    <th
+                      class="cabecalho-ordenavel"
+                      data-ordenar="responsavel"
+                    >
+                      Responsável
+
+                      <span class="icone-ordenacao">
+                        ↕
+                      </span>
+                    </th>
+
+                    <th
+                      class="cabecalho-ordenavel"
+                      data-ordenar="estado"
+                    >
+                      Estado
+
+                      <span class="icone-ordenacao">
+                        ↕
+                      </span>
+                    </th>
+
+                    <th
+                      class="cabecalho-ordenavel"
+                      data-ordenar="tipo"
+                    >
+                      Tipo
+
+                      <span class="icone-ordenacao">
+                        ↕
+                      </span>
+                    </th>
+
+                    <th
+                      class="cabecalho-ordenavel"
+                      data-ordenar="custo"
+                    >
+                      Custo
+
+                      <span class="icone-ordenacao">
+                        ↕
+                      </span>
+                    </th>
+
+                    <th>
+                      Ação
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody id="corpo-tabela"></tbody>
+
+              </table>
+
+            </div>
+
+            <!-- Paginação da tabela -->
+
+            <div class="paginacao">
+
+              <p id="texto-paginacao">
+                A mostrar 0–0 de 0 tarefas
+              </p>
+
+              <div class="paginacao-botoes">
+
+                <button
+                  type="button"
+                  class="botao-paginacao"
+                  id="pagina-anterior"
+                >
+                  ← Anterior
+                </button>
+
+                <div
+                  id="numeros-paginacao"
+                  class="numeros-paginacao"
+                ></div>
+
+                <button
+                  type="button"
+                  class="botao-paginacao"
+                  id="pagina-seguinte"
+                >
+                  Seguinte →
+                </button>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </section>
+
+        <!-- ==================================================
+             PÁGINA: NOVA TAREFA
+             ================================================== -->
+
+        <section
+          id="secao-nova-tarefa"
+          class="pagina-secao"
+        >
+
+          <div class="cabecalho-pagina">
+
+            <div>
+
+              <p class="eyebrow">
+                NOVO REGISTO
+              </p>
+
+              <h2>
+                Adicionar tarefa
+              </h2>
+
+              <p class="texto-secundario">
+                A tarefa será criada através da API e guardada no ficheiro CSV.
+              </p>
+
+            </div>
+
+          </div>
+
+          <section class="painel formulario-painel">
+
+            <form id="form-tarefa">
+
+              <div class="campo-formulario">
+
+                <label for="tipo">
+                  Tipo de tarefa
+                </label>
+
+                <select id="tipo">
+
+                  <option value="tecnica">
+                    Técnica
+                  </option>
+
+                  <option value="reuniao">
+                    Reunião
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="campo-formulario campo-duplo">
+
+                <label for="titulo">
+                  Título
+                </label>
+
+                <input
+                  id="titulo"
+                  required
+                  maxlength="120"
+                  placeholder="Ex.: Desenvolver módulo de relatórios"
+                >
+
+              </div>
+
+              <div class="campo-formulario">
+
+                <label for="responsavel_nome">
+                  Nome do responsável
+                </label>
+
+                <input
+                  id="responsavel_nome"
+                  required
+                  placeholder="Ana Silva"
+                >
+
+              </div>
+
+              <div class="campo-formulario">
+
+                <label for="responsavel_email">
+                  Email
+                </label>
+
+                <input
+                  id="responsavel_email"
+                  type="email"
+                  required
+                  placeholder="ana@empresa.pt"
+                >
+
+              </div>
+
+              <div
+                id="grupo-campo"
+                class="campo-formulario"
+              >
+
+                <label for="campo">
+                  Linguagem
+                </label>
+
+                <input
+                  id="campo"
+                  required
+                  placeholder="Python"
+                >
+
+              </div>
+
+              <div
+                id="grupo-horas"
+                class="campo-formulario"
+              >
+
+                <label for="horas">
+                  Estimativa de horas
+                </label>
+
+                <input
+                  id="horas"
+                  type="number"
+                  min="0.1"
+                  step="0.1"
+                  required
+                  placeholder="4"
+                >
+
+              </div>
+
+              <!-- Dependências -->
+
+              <div class="campo-formulario campo-total">
+
+                <div class="dependencias-cabecalho">
+
+                  <div>
+
+                    <label>
+                      Dependências
+                    </label>
+
+                    <p class="texto-secundario">
+                      Selecione tarefas que precisam de estar concluídas
+                      antes desta começar.
+                    </p>
+
+                  </div>
+
+                  <span
+                    id="contador-dependencias"
+                    class="contador-selecao"
+                  >
+                    0 selecionadas
+                  </span>
+
+                </div>
+
+                <!-- Pesquisa e filtro das dependências -->
+
+                <div class="dependencias-filtros">
+
+                  <div class="campo-pesquisa dependencias-pesquisa">
+
+                    <span class="icone-pesquisa">
+                      ⌕
+                    </span>
+
+                    <input
+                      id="pesquisa-dependencias"
+                      type="search"
+                      placeholder="Pesquisar por título ou responsável..."
+                      autocomplete="off"
+                    >
+
+                  </div>
+
+                  <select id="filtro-estado-dependencias">
+
+                    <option value="">
+                      Todos os estados
+                    </option>
+
+                    <option value="pendente">
+                      Pendente
+                    </option>
+
+                    <option value="em curso">
+                      Em curso
+                    </option>
+
+                    <option value="concluída">
+                      Concluída
+                    </option>
+
+                  </select>
+
+                </div>
+
+                <!-- Cartões de dependências -->
+
+                <div
+                  id="lista-dependencias"
+                  class="lista-dependencias"
+                ></div>
+
+                <!-- Paginação das dependências -->
+
+                <div class="dependencias-paginacao">
+
+                  <span id="texto-paginacao-dependencias">
+                    Página 1 de 1
+                  </span>
+
+                  <div class="dependencias-paginacao-botoes">
+
+                    <button
+                      type="button"
+                      id="dependencias-anterior"
+                      class="botao-paginacao"
+                    >
+                      ← Anterior
+                    </button>
+
+                    <div
+                      id="numeros-paginacao-dependencias"
+                      class="numeros-paginacao"
+                    ></div>
+
+                    <button
+                      type="button"
+                      id="dependencias-seguinte"
+                      class="botao-paginacao"
+                    >
+                      Seguinte →
+                    </button>
+
+                  </div>
+
+                </div>
+
+                <small>
+                  Uma tarefa com dependências pendentes não pode passar
+                  para “em curso”.
+                </small>
+
+              </div>
+
+              <div class="acoes-formulario campo-total">
+
+                <button
+                  type="button"
+                  class="botao-cancelar"
+                  id="botao-cancelar"
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  type="submit"
+                  class="botao-principal"
+                  id="botao-guardar-tarefa"
+                >
+                  Adicionar e guardar
+                </button>
+
+              </div>
+
+            </form>
+
+          </section>
+
+        </section>
+
+        <!-- ==================================================
+             PÁGINA: ESTATÍSTICAS
+             ================================================== -->
+
+        <section
+          id="secao-estatisticas"
+          class="pagina-secao"
+        >
+
+          <div class="cabecalho-pagina">
+
+            <div>
+
+              <p class="eyebrow">
+                ANÁLISE
+              </p>
+
+              <h2>
+                Estatísticas do projeto
+              </h2>
+
+              <p class="texto-secundario">
+                Consulte a distribuição, o progresso, o esforço e os custos.
+              </p>
+
+            </div>
+
+          </div>
+
+          <section
+            id="cards-estatisticas"
+            class="cards"
+          ></section>
+
+          <section class="dashboard-grid">
+
+            <article class="painel">
+
+              <div class="painel-cabecalho">
+
+                <div>
+
+                  <p class="eyebrow">
+                    PROGRESSO
+                  </p>
+
+                  <h3>
+                    Conclusão do projeto
+                  </h3>
+
+                </div>
+
+                <strong
+                  id="estatisticas-percentagem"
+                  class="percentagem-numero"
+                >
+                  0%
+                </strong>
+
+              </div>
+
+              <div class="barra-progresso grande">
+
+                <div
+                  id="estatisticas-barra"
+                  class="barra-preenchimento"
+                ></div>
+
+              </div>
+
+              <div class="progresso-legenda">
+
+                <div>
+
+                  <span class="legenda-ponto pendente"></span>
+
+                  Pendentes
+
+                  <strong id="estatistica-legenda-pendentes">
+                    0
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span class="legenda-ponto curso"></span>
+
+                  Em curso
+
+                  <strong id="estatistica-legenda-curso">
+                    0
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span class="legenda-ponto concluida"></span>
+
+                  Concluídas
+
+                  <strong id="estatistica-legenda-concluidas">
+                    0
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <p
+                id="estatisticas-resumo"
+                class="texto-secundario progresso-resumo"
+              >
+                Ainda não existem tarefas.
+              </p>
+
+            </article>
+
+            <article class="painel">
+
+              <div class="painel-cabecalho">
+
+                <div>
+
+                  <p class="eyebrow">
+                    DISTRIBUIÇÃO
+                  </p>
+
+                  <h3>
+                    Estados das tarefas
+                  </h3>
+
+                </div>
+
+              </div>
+
+              <div class="grafico-circular-wrap">
+
+                <div
+                  id="grafico-circular-estatisticas"
+                  class="grafico-circular"
+                >
+
+                  <div class="grafico-centro">
+
+                    <strong id="grafico-total-estatisticas">
+                      0
+                    </strong>
+
+                    <span>
+                      tarefas
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="grafico-legenda">
+
+                  <div class="item-legenda">
+
+                    <span class="cor-legenda pendente"></span>
+
+                    <div>
+
+                      <small>
+                        Pendentes
+                      </small>
+
+                      <strong id="grafico-pendentes-estatisticas">
+                        0
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+                  <div class="item-legenda">
+
+                    <span class="cor-legenda curso"></span>
+
+                    <div>
+
+                      <small>
+                        Em curso
+                      </small>
+
+                      <strong id="grafico-curso-estatisticas">
+                        0
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+                  <div class="item-legenda">
+
+                    <span class="cor-legenda concluida"></span>
+
+                    <div>
+
+                      <small>
+                        Concluídas
+                      </small>
+
+                      <strong id="grafico-concluidas-estatisticas">
+                        0
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </section>
+
+          <!-- Indicadores financeiros -->
+
+          <section class="painel">
+
+            <div class="painel-cabecalho">
+
+              <div>
+
+                <p class="eyebrow">
+                  INDICADORES
+                </p>
+
+                <h3>
+                  Resumo financeiro e temporal
+                </h3>
+
+              </div>
+
+            </div>
+
+            <div class="indicadores-grid">
+
+              <article class="indicador-detalhado">
+
+                <span>
+                  Horas totais
+                </span>
+
+                <strong id="indicador-horas">
+                  0 h
+                </strong>
+
+                <small>
+                  Esforço estimado no projeto
+                </small>
+
+              </article>
+
+              <article class="indicador-detalhado">
+
+                <span>
+                  Custo total
+                </span>
+
+                <strong id="indicador-custo">
+                  0,00 €
+                </strong>
+
+                <small>
+                  Custo calculado pelas tarefas
+                </small>
+
+              </article>
+
+              <article class="indicador-detalhado">
+
+                <span>
+                  Média por tarefa
+                </span>
+
+                <strong id="indicador-media">
+                  0 h
+                </strong>
+
+                <small>
+                  Média de horas por tarefa
+                </small>
+
+              </article>
+
+            </div>
+
+          </section>
+
+        </section>
+
+        <!-- ==================================================
+             PÁGINA: EXPORTAR
+             ================================================== -->
+
+        <section
+          id="secao-exportar"
+          class="pagina-secao"
+        >
+
+          <div class="cabecalho-pagina">
+
+            <div>
+
+              <p class="eyebrow">
+                RELATÓRIOS
+              </p>
+
+              <h2>
+                Exportar dados
+              </h2>
+
+              <p class="texto-secundario">
+                Gere ficheiros com os dados atuais do projeto.
+              </p>
+
+            </div>
+
+          </div>
+
+          <section class="exportacao-grid">
+
+            <!-- Relatório de tarefas -->
+
+            <article class="painel exportacao-card">
+
+              <div class="exportacao-icone">
+                ✓
+              </div>
+
+              <div>
+
+                <p class="eyebrow">
+                  RELATÓRIO OPERACIONAL
+                </p>
+
+                <h3>
+                  Relatório de tarefas
+                </h3>
+
+                <p class="texto-secundario">
+                  Exporta tarefas, responsáveis, estados,
+                  dependências e custos.
+                </p>
+
+              </div>
+
+              <div class="exportacao-detalhes">
+
+                <div>
+
+                  <span>
+                    Total de tarefas
+                  </span>
+
+                  <strong id="exportar-total-tarefas">
+                    0
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    Formato
+                  </span>
+
+                  <strong>
+                    CSV
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <button
+                type="button"
+                class="botao-principal botao-largo"
+                id="exportar-tarefas-csv"
+              >
+                Exportar relatório de tarefas
+              </button>
+
+            </article>
+
+            <!-- Relatório financeiro -->
+
+            <article class="painel exportacao-card">
+
+              <div class="exportacao-icone">
+                €
+              </div>
+
+              <div>
+
+                <p class="eyebrow">
+                  RELATÓRIO FINANCEIRO
+                </p>
+
+                <h3>
+                  Custos do projeto
+                </h3>
+
+                <p class="texto-secundario">
+                  Exporta o custo de cada tarefa e o custo total do projeto.
+                </p>
+
+              </div>
+
+              <div class="exportacao-detalhes">
+
+                <div>
+
+                  <span>
+                    Custo total
+                  </span>
+
+                  <strong id="exportar-custo-total">
+                    0,00 €
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    Formato
+                  </span>
+
+                  <strong>
+                    CSV
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <button
+                type="button"
+                class="botao-principal botao-largo"
+                id="exportar-financeiro-csv"
+              >
+                Exportar relatório financeiro
+              </button>
+
+            </article>
+
+            <!-- Resumo geral -->
+
+            <article class="painel exportacao-card">
+
+              <div class="exportacao-icone">
+                ≡
+              </div>
+
+              <div>
+
+                <p class="eyebrow">
+                  RESUMO EXECUTIVO
+                </p>
+
+                <h3>
+                  Resumo geral
+                </h3>
+
+                <p class="texto-secundario">
+                  Gera um ficheiro de texto com os principais indicadores.
+                </p>
+
+              </div>
+
+              <div class="exportacao-detalhes">
+
+                <div>
+
+                  <span>
+                    Conteúdo
+                  </span>
+
+                  <strong>
+                    Indicadores
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    Formato
+                  </span>
+
+                  <strong>
+                    TXT
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <button
+                type="button"
+                class="botao-secundario botao-largo"
+                id="exportar-resumo-txt"
+              >
+                Exportar resumo geral
+              </button>
+
+            </article>
+
+          </section>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- ========================================================
+       LOADING GLOBAL
+       ======================================================== -->
+
+  <div
+    id="loading-global"
+    class="loading-global oculto"
+    aria-live="polite"
+  >
+
+    <div class="loading-caixa">
+
+      <div class="spinner"></div>
+
+      <span id="loading-texto">
+        A carregar...
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- ========================================================
+       MODAL DE CONFIRMAÇÃO DE ESTADO
+       ======================================================== -->
+
+  <div
+    id="modal-estado"
+    class="modal-overlay oculto"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-titulo"
+  >
+
+    <div class="modal-caixa">
+
+      <div class="modal-icone">
+        ↻
+      </div>
+
+      <h3 id="modal-titulo">
+        Confirmar alteração de estado
+      </h3>
+
+      <p>
+        Confirme os dados antes de alterar o estado da tarefa.
+      </p>
+
+      <div class="modal-detalhes">
+
+        <div>
+
+          <span>
+            Tarefa
+          </span>
+
+          <strong id="modal-tarefa">
+            —
+          </strong>
+
+        </div>
+
+        <div>
+
+          <span>
+            Estado atual
+          </span>
+
+          <strong id="modal-estado-atual">
+            —
+          </strong>
+
+        </div>
+
+        <div>
+
+          <span>
+            Novo estado
+          </span>
+
+          <strong id="modal-novo-estado">
+            —
+          </strong>
+
+        </div>
+
+      </div>
+
+      <div class="modal-acoes">
+
+        <button
+          type="button"
+          id="modal-cancelar"
+          class="botao-cancelar"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          id="modal-confirmar"
+          class="botao-principal"
+        >
+          Confirmar alteração
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="/static/app.js"></script>
+
+</body>
+
+</html>
