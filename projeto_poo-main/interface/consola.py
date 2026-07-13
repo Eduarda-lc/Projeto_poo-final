@@ -3,12 +3,15 @@ from dominio.tarefa_tecnica import TarefaTecnica
 from dominio.tarefa_reuniao import TarefaReuniao
 from dominio.colaborador import Colaborador
 
-
+'''Interface de linha de comandos do sistema.
+Permite ao utilizador interagir com a aplicação através de um menu textual.'''
 class Consola:
 
+## Ligação à camada de serviço.
     def __init__(self, servico: ServicoTarefas):
         self._servico = servico
 
+#Ciclo principal da aplicação em modo consola.
     def executar(self) -> None:
 
         opcoes = {
@@ -52,6 +55,8 @@ class Consola:
             except Exception as erro:
                 print(f"Erro: {erro}")
 
+#------------------------
+#Lista todas as tarefas existentes.
 
     def _listar(self):
 
@@ -63,6 +68,9 @@ class Consola:
 
         for tarefa in tarefas:
             print(tarefa.detalhe())
+
+#------------------------
+#Cria uma nova tarefa através de dados introduzidos pelo utilizador.
 
     def _adicionar(self):
 
@@ -106,6 +114,9 @@ class Consola:
         self._servico.adicionar(tarefa)
 
         print("Tarefa adicionada com sucesso.")
+        
+#------------------------
+#Permite alterar o estado de uma tarefa.
 
     def _mudar_estado(self):
 
@@ -125,6 +136,9 @@ class Consola:
 
         print("Estado alterado.")
 
+#------------------------
+#Apresenta apenas as tarefas com o estado indicado.
+
     def _filtrar(self):
 
         estado = input(
@@ -141,6 +155,9 @@ class Consola:
 
         for tarefa in tarefas:
             print(tarefa.detalhe())
+            
+#------------------------
+#Mostra os indicadores estatísticos do sistema.
 
     def _estatisticas(self):
 
@@ -154,13 +171,22 @@ class Consola:
             f"{estatisticas['percentagem_concluidas']:.2f}%"
         )
 
+#------------------------
+#Guarda os dados no ficheiro CSV.
+
     def _guardar(self):
         self._servico.guardar()
         print("Tarefas guardadas com sucesso.")
         
+#------------------------
+#Carrega os dados do ficheiro CSV.
+
     def _carregar(self):
         self._servico.carregar()
         print("Tarefas carregadas com sucesso.")
+        
+#------------------------
+#EExporta as tarefas utilizando a interface Exportavel.
 
     def _exportar(self):
 
