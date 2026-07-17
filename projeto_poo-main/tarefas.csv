@@ -1,7 +1,11 @@
 tipo;id;titulo;responsavel_nome;responsavel_email;estado;campo_especifico;horas;dependencias
 tecnica;1;Preparar API;Ana Silva;ana@empresa.pt;concluída;Python;8.0;
 reuniao;2;Kickoff com cliente;Bruno Costa;bruno@empresa.pt;concluída;Teams;1.5;
-reuniao;3;Teste1;Bruna;bruna@gmail.com;em curso;sala 2;1.7;1
+reuniao;3;Teste1;Bruna;bruna@gmail.com;concluída;sala 2;1.7;1
 tecnica;4;Montar api;Will;will@gmail.com;concluída;sala4;4.0;1
 reuniao;5;reuniao teste4;ana;ana@empresa.pt;concluída;sala6;4.0;
 tecnica;6;montar sla;ana;ana@empresa.pt;concluída;teams;6.0;5
+tecnica;7;desenvovler;ana;ana@empresa2.pt;concluída;python;9.0;3
+tecnica;8;Desenvolver Módulos de Relatórios;Eduarda Cardoso;eduarda@empresa.pt;em curso;Pyhton;8.0;
+reuniao;9;Desenvolvimento de APIs;Gabriela Faria;gabriela@empresa.pt;pendente;Teams;1.3;
+tecnica;10;Desenvolver APIs;Eduarda Cardoso;eduarda@empresa.pt;pendente;Teams;16.0;9
